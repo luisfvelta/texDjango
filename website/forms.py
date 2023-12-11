@@ -10,8 +10,8 @@ class AgregaCliente(forms.ModelForm):
 	email = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}))
 	telefono = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Teléfono'}))
 	direccion = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Dirección'}))
-	ciudad = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ciudad'}))
-	comuna = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Comuna'}))
+	ciudad = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control ', 'placeholder':'Ciudad'}))
+	comuna = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control ', 'placeholder':'Comuna'}))
 	region = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Región'}))
 	codigo_postal = forms.CharField(label="",required=True,widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Código Postal'}))
 

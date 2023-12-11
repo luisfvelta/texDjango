@@ -7,39 +7,26 @@ from django.contrib import messages
 from .forms import SignUpForm, AgregaCliente, AgregaProducto
 
 from .models import Cliente
+from .models import Producto
 
-def add_record(request):
+def agrega_cliente(request):
 	form = AgregaCliente(request.POST or None)  
 
 	if request.user.is_authenticated:
 		if request.method == "POST":
 			if form.is_valid:
-				add_record = form.save()
-				messages.success(request, "registro agregado!")
+				agrega_cliente = form.save()
+				messages.success(request, "Se agregó el cliente con el rut: " + agrega_cliente.rut)
 				return redirect('home')
-		return render(request,'add_record.html', {'form':form})
+		return render(request,'agrega_cliente.html', {'form':form})
 	else:
 		messages.success(request, "Debes haber efectuado login")
 		return redirect('home')
 
-def add_producto(request):
-	form = AgregaProducto(request.POST or None)  
-
+def registro_cliente(request,pk):
 	if request.user.is_authenticated:
-		if request.method == "POST":
-			if form.is_valid:
-				add_producto = form.save()
-				messages.success(request, "registro agregado!")
-				return redirect('home')
-		return render(request,'add_producto.html', {'form':form})
-	else:
-		messages.success(request, "Debes haber efectuado login")
-		return redirect('home')
-
-def customer_record(request,pk):
-	if request.user.is_authenticated:
-		customer_record = Cliente.objects.get(id=pk)
-		return render(request,'record.html',{'customer_record':customer_record})
+		registro_cliente = Cliente.objects.get(id=pk)
+		return render(request,'cliente.html',{'registro_cliente':registro_cliente})
 	else:
 		messages.success(request, " You Must Be Logged In to View That Page!")
 		return redirect('home')
@@ -54,6 +41,37 @@ def delete_record(request,pk):
 		messages.success(request, " You Must Be Logged In to do that!")
 		return redirect('home')
 
+def update_record(request, pk):
+
+	if request.user.is_authenticated:
+		cliente_actual = Cliente.objects.get(id=pk)
+		
+		form = AgregaCliente(request.POST or None, instance=cliente_actual)
+		if form.is_valid():
+			form.save()
+			messages.success(request,"Datos actualizados para " + cliente_actual.rut)
+			return redirect('home')
+		return render(request,'update_record.html',{'form':form})
+	else:
+		messages.success(request," Login requerido para acceder a esta función")
+		return redirect('home')
+
+def agrega_producto(request):
+	form = AgregaProducto(request.POST or None)  
+
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			if form.is_valid:
+				agrega_producto = form.save()
+				messages.success(request, "registro agregado!")
+				return redirect('home')
+		return render(request,'agrega_producto.html', {'form':form})
+	else:
+		messages.success(request, "Debes haber efectuado login")
+		return redirect('home')
+
+
+
 def home(request):
 	#records = Record.objects.all()
 
@@ -65,19 +83,14 @@ def home(request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
-			messages.success(request,username + " You have been logged in")
+			messages.success(request,username + " Bienvenido. Has efectuado tu login!")
 			return redirect ('home')
 		else:
-			messages.success(request,username + " There was an error")
+			messages.success(request,username + " Intento errado!")
 			return redirect ('home')
 	else:
-		records = Cliente.objects.all()
-		return render(request,'home.html', {'records':records})
-
-def logout_user(request):
-	logout(request)
-	messages.success(request, "You have  logged out")
-	return redirect ('home')
+		clientes = Cliente.objects.all()
+		return render(request,'home.html', {'clientes':clientes})
 
 
 def register_user(request):
@@ -91,7 +104,7 @@ def register_user(request):
 			password = form.cleaned_data['password1']
 			user = authenticate(username = username, password = password)
 			login(request,user)
-			messages.success(request, username + " You have successfully registered! Welcome")
+			messages.success(request, username + " Te has registrado. Bienvenido")
 			return redirect('home')
 
 		else:
@@ -102,21 +115,12 @@ def register_user(request):
 	return render(request,'register.html',{'form':form})
 
 
-def update_record(request, pk):
 
-	if request.user.is_authenticated:
-		current_record = Cliente.objects.get(id=pk)
-		print(current_record)
+def logout_user(request):
+	logout(request)
+	messages.success(request, "Hasta luego. Has salido del sistema!")
+	return redirect ('home')
 
-		form = AgregaCliente(request.POST or None, instance=current_record)
-		if form.is_valid():
-			form.save()
-			messages.success(request,"Datos actualizados")
-			return redirect('home')
-		return render(request,'update_record.html',{'form':form})
-	else:
-		messages.success(request," Login requerido para acceder a esta función")
-		return redirect('home')
 
 
 		

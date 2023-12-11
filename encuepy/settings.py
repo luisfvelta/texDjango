@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
+
+By Luis F 
 """
 
 from pathlib import Path
@@ -31,14 +33,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website'
-    
+    'website',
+    'sygbv',    
 ]
 
 MIDDLEWARE = [
@@ -78,14 +81,13 @@ WSGI_APPLICATION = 'encuepy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'encuedb',
+        'NAME': 'texdb',
         'HOST' : 'localhost',
         'USER' : 'postgres',
         'PASSWORD' : '',
         'PORT' : '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -116,6 +118,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+USE_L10N = False
 
 
 # Static files (CSS, JavaScript, Images)

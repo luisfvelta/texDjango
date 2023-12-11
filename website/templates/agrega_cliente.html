@@ -3,10 +3,10 @@
 {% block content %}
 
 	<div class="col-md-6 offset-md-3">
-		<h2>Actualiza cliente </h2>
+		<h2>Agrega Cliente </h2>
 		<br/>
 
-		<form method="POST">
+		<form method="POST" action = "{% url 'agrega_cliente' %}">
 
 			{% csrf_token %}
 
@@ -14,7 +14,7 @@
 
 			<br/>
 
-			<button type="submit" class="btn btn-secondary">Modifica datos</button>
+			<button type="submit" class="btn btn-secondary">Agrega Cliente </button>
 			<a href="{% url 'home' %}" class="btn btn-secondary">Atrás</a>
 
 		</form>
